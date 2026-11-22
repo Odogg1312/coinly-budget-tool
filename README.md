@@ -5,7 +5,6 @@ A colorful, static budgeting and savings dashboard. Open `index.html` in a brows
 ## Demo limitations
 
 - Account details and budgeting data are stored in the visitor's browser. There is no server-side account system or cross-device sync.
-- Premium checkout is a demonstration only. It does not collect payment or create a subscription.
-- Do not enter a password used on another service. Use a real authentication and payment provider before offering accounts or paid plans to customers.
+- Do not enter a password used on another service. Account creation is a local demo, not a secure online account.
 
 The site uses no build tools or paid services.

@@ -25,9 +25,6 @@
       <button class="nav-item" type="button" data-view="savings" aria-pressed="false">
         <span class="nav-icon">◎</span><span>Savings</span>
       </button>
-      <button class="nav-item premium-nav" type="button" data-view="premium" aria-pressed="false">
-        <span class="nav-icon">✦</span><span>Premium</span>
-      </button>
     </nav>
 
     <div class="sidebar-bottom">
@@ -53,7 +50,6 @@
       </div>
       <div class="top-actions">
         <button class="account-button" type="button" id="accountButton">Create account</button>
-        <button class="upgrade-button" type="button" id="upgradeButton">✦ Upgrade</button>
         <button class="add-button" type="button" id="openExpense">
           <span aria-hidden="true">＋</span> Add expense
         </button>
@@ -144,36 +140,6 @@
       </article>
     </section>
 
-    <section class="dashboard view-panel premium-view" id="premiumView" hidden>
-      <article class="premium-hero">
-        <div class="premium-badge">COINLY PLUS</div>
-        <h2>Make every dollar work harder.</h2>
-        <p>Unlock smarter reports, unlimited goals, and tools designed to help you save faster.</p>
-        <div class="plan-toggle" aria-label="Billing period">
-          <button type="button" class="active" data-plan="monthly">Monthly</button>
-          <button type="button" data-plan="yearly">Yearly <span>Save 33%</span></button>
-        </div>
-        <div class="premium-price"><strong id="premiumPrice">$5</strong><span>/month</span></div>
-        <button class="premium-cta" type="button" id="buyPremium">Get Coinly Plus</button>
-        <small id="premiumStatus">Cancel anytime · 7-day money-back guarantee</small>
-      </article>
-
-      <article class="card perk-card">
-        <p class="perk-label">PREMIUM PERKS</p>
-        <div class="perk-list">
-          <div><span>📊</span><div><strong>Advanced reports</strong><small>Trends, forecasts, and weekly insights</small></div></div>
-          <div><span>🎯</span><div><strong>Unlimited goals</strong><small>Plan every dream and emergency fund</small></div></div>
-          <div><span>📤</span><div><strong>CSV export</strong><small>Take your data anywhere</small></div></div>
-          <div><span>🎨</span><div><strong>Premium themes</strong><small>Personalize your money dashboard</small></div></div>
-        </div>
-      </article>
-
-      <article class="card premium-tools">
-        <div class="card-heading"><div><p>Plus tools</p><h3>Your premium perks</h3></div></div>
-        <button class="tool-button" type="button" id="exportCsv"><span>⬇</span><div><strong>Export expense data</strong><small>Download a CSV spreadsheet</small></div><b>›</b></button>
-        <button class="tool-button" type="button" id="themeButton"><span>◐</span><div><strong>Switch premium theme</strong><small>Unlock new dashboard colors</small></div><b>›</b></button>
-      </article>
-    </section>
   </main>
 
   <dialog id="expenseDialog">
@@ -192,22 +158,6 @@
         </label>
       </div>
       <button class="add-button dialog-submit" type="submit">Add expense</button>
-    </form>
-  </dialog>
-
-  <dialog id="checkoutDialog" class="checkout-dialog">
-    <form id="checkoutForm" method="dialog">
-      <div class="dialog-heading">
-        <div><p>COINLY PLUS</p><h3>Try premium for this demo</h3></div>
-        <button class="dialog-close" type="button" id="closeCheckout" aria-label="Close">×</button>
-      </div>
-      <div class="checkout-summary">
-        <span>Coinly Plus</span>
-        <strong id="checkoutPrice">$5.00/month</strong>
-      </div>
-      <label>Email for receipt<input id="checkoutEmail" type="email" required placeholder="you@example.com"></label>
-      <button class="premium-cta" type="submit">Unlock premium demo</button>
-      <small class="demo-note">Demo only — no payment will be collected.</small>
     </form>
   </dialog>
 

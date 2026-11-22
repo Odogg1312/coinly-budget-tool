@@ -1,6 +1,5 @@
 const defaultState = {
   budget: 4000,
-  isPremium: false,
   goalName: "Dream vacation",
   saved: 2720,
   goal: 4000,
@@ -57,14 +56,7 @@ function totals() {
 }
 
 function render() {
-  document.body.classList.toggle("premium-active", Boolean(state.isPremium));
   renderAccount();
-  document.getElementById("upgradeButton").textContent = state.isPremium ? "✦ Plus active" : "✦ Upgrade";
-  if (state.isPremium) {
-    document.getElementById("premiumStatus").textContent = "Active membership · Manage in account";
-  } else {
-    document.getElementById("premiumStatus").textContent = "Cancel anytime · 7-day money-back guarantee";
-  }
   const { spent, available } = totals();
   document.getElementById("spentBalance").textContent = money(spent);
   document.getElementById("budgetBalance").textContent = money(state.budget);
@@ -138,10 +130,10 @@ function showView(view) {
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
-  ["overview", "expenses", "savings", "premium"].forEach(name => {
+  ["overview", "expenses", "savings"].forEach(name => {
     document.getElementById(`${name}View`).hidden = name !== view;
   });
-  const titles = { overview: "Good morning, <span>Owen!</span>", expenses: "Track your <span>expenses</span>", savings: "Grow your <span>savings</span>", premium: "Coinly <span>Plus</span>" };
+  const titles = { overview: "Good morning, <span>Owen!</span>", expenses: "Track your <span>expenses</span>", savings: "Grow your <span>savings</span>" };
   document.getElementById("pageTitle").innerHTML = titles[view];
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -155,7 +147,7 @@ function renderAccount() {
     const initials = account.name.split(/\s+/).slice(0, 2).map(part => part[0]?.toUpperCase()).join("") || "CO";
     avatar.textContent = initials;
     name.textContent = account.name;
-    status.textContent = state.isPremium ? "Coinly Plus" : "Free account";
+    status.textContent = "Free account";
     button.textContent = "My account";
   } else {
     avatar.textContent = "OM";
@@ -179,73 +171,6 @@ document.querySelectorAll(".nav-item").forEach(button => {
 
 document.getElementById("showExpenses").addEventListener("click", () => showView("expenses"));
 document.getElementById("showAllTransactions").addEventListener("click", () => showView("expenses"));
-
-document.getElementById("upgradeButton").addEventListener("click", () => showView("premium"));
-
-let selectedPlan = "monthly";
-document.querySelectorAll(".plan-toggle button").forEach(button => {
-  button.addEventListener("click", () => {
-    selectedPlan = button.dataset.plan;
-    document.querySelectorAll(".plan-toggle button").forEach(item => item.classList.toggle("active", item === button));
-    if (selectedPlan === "yearly") {
-      document.getElementById("premiumPrice").textContent = "$40";
-      document.querySelector("#premiumView .premium-price span").textContent = "/year";
-      document.getElementById("checkoutPrice").textContent = "$40.00/year";
-    } else {
-      document.getElementById("premiumPrice").textContent = "$5";
-      document.querySelector("#premiumView .premium-price span").textContent = "/month";
-      document.getElementById("checkoutPrice").textContent = "$5.00/month";
-    }
-  });
-});
-
-const checkoutDialog = document.getElementById("checkoutDialog");
-document.getElementById("buyPremium").addEventListener("click", () => {
-  if (state.isPremium) {
-    showToast("Your Plus membership is already active");
-    return;
-  }
-  checkoutDialog.showModal();
-});
-document.getElementById("closeCheckout").addEventListener("click", () => checkoutDialog.close());
-document.getElementById("checkoutForm").addEventListener("submit", event => {
-  event.preventDefault();
-  state.isPremium = true;
-  state.premiumPlan = selectedPlan;
-  saveState();
-  render();
-  checkoutDialog.close();
-  showToast("Welcome to Coinly Plus!");
-});
-
-document.getElementById("exportCsv").addEventListener("click", () => {
-  if (!state.isPremium) {
-    showView("premium");
-    showToast("Upgrade to unlock CSV export");
-    return;
-  }
-  const csv = ["Expense,Category,Amount", ...state.expenses.map(item =>
-    `"${String(item.name).replaceAll('"', '""')}","${item.category}",${item.amount}`
-  )].join("\n");
-  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "coinly-expenses.csv";
-  link.click();
-  URL.revokeObjectURL(url);
-  showToast("CSV exported");
-});
-
-let darkTheme = false;
-document.getElementById("themeButton").addEventListener("click", () => {
-  if (!state.isPremium) {
-    showToast("Upgrade to unlock premium themes");
-    return;
-  }
-  darkTheme = !darkTheme;
-  document.body.style.filter = darkTheme ? "hue-rotate(18deg) saturate(1.08)" : "";
-  showToast(darkTheme ? "Premium theme applied" : "Original theme restored");
-});
 
 const dialog = document.getElementById("expenseDialog");
 document.getElementById("openExpense").addEventListener("click", () => dialog.showModal());
