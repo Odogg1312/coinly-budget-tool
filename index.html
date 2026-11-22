@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7357ff">
+  <meta name="description" content="Coinly is a colorful free budget planner for tracking spending and savings goals.">
+  <title>Coinly — Your colorful money dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#" aria-label="Coinly home">
+      <span class="brand-mark" aria-hidden="true">C</span>
+      <span>coinly</span>
+    </a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <button class="nav-item active" type="button" data-view="overview" aria-pressed="true">
+        <span class="nav-icon">⌂</span><span>Overview</span>
+      </button>
+      <button class="nav-item" type="button" data-view="expenses" aria-pressed="false">
+        <span class="nav-icon">↗</span><span>Expenses</span>
+      </button>
+      <button class="nav-item" type="button" data-view="savings" aria-pressed="false">
+        <span class="nav-icon">◎</span><span>Savings</span>
+      </button>
+      <button class="nav-item premium-nav" type="button" data-view="premium" aria-pressed="false">
+        <span class="nav-icon">✦</span><span>Premium</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="mini-card">
+        <span class="spark">✦</span>
+        <div>
+          <strong>Money tip</strong>
+          <p id="tipText">A tiny daily save adds up.</p>
+        </div>
+      </div>
+      <button class="profile" type="button" id="profileButton" title="Open account">
+        <span class="avatar" id="profileAvatar">OM</span>
+        <span><strong id="profileName">My wallet</strong><small id="profileStatus">Create account</small></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="dateLabel">YOUR MONEY, SIMPLIFIED</p>
+        <h1 id="pageTitle">Good morning, <span>Owen!</span></h1>
+      </div>
+      <div class="top-actions">
+        <button class="account-button" type="button" id="accountButton">Create account</button>
+        <button class="upgrade-button" type="button" id="upgradeButton">✦ Upgrade</button>
+        <button class="add-button" type="button" id="openExpense">
+          <span aria-hidden="true">＋</span> Add expense
+        </button>
+      </div>
+    </header>
+
+    <section class="dashboard" id="overviewView">
+      <article class="balance-card">
+        <div class="balance-heading">
+          <div>
+            <p>Available this month</p>
+            <h2 id="availableBalance">$2,580</h2>
+          </div>
+          <span class="trend">↗ 8.4%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="budgetProgress"></div></div>
+        <div class="balance-meta">
+          <span><b id="spentBalance">$1,420</b> spent</span>
+          <span><b id="budgetBalance">$4,000</b> budget</span>
+        </div>
+      </article>
+
+      <article class="card savings-card">
+        <div class="card-heading">
+          <div><p>Savings goal</p><h3 id="goalName">Dream vacation</h3></div>
+          <button class="dots" type="button" aria-label="Edit savings goal" id="editGoal">•••</button>
+        </div>
+        <div class="savings-body">
+          <div class="ring" id="savingsRing">
+            <div><strong id="savingsPercent">68%</strong><small>saved</small></div>
+          </div>
+          <div class="savings-amount">
+            <p><b id="savedAmount">$2,720</b> <span>of <span id="goalAmount">$4,000</span></span></p>
+            <div class="savings-pill" id="goalRemaining">$1,280 to go</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card spending-card">
+        <div class="card-heading">
+          <div><p>This month</p><h3>Spending</h3></div>
+          <button class="month-select" type="button" id="monthSelect">November⌄</button>
+        </div>
+        <div class="bar-chart" id="barChart" aria-label="Weekly spending chart">
+          <div class="chart-line"></div>
+          <div class="bar-column"><div class="bar" style="--height:36%"></div><span>W1</span></div>
+          <div class="bar-column"><div class="bar" style="--height:54%"></div><span>W2</span></div>
+          <div class="bar-column"><div class="bar active" style="--height:78%"></div><span>W3</span></div>
+          <div class="bar-column"><div class="bar" style="--height:46%"></div><span>W4</span></div>
+        </div>
+        <div class="chart-total"><span>Weekly average</span><strong id="weeklyAverage">$355</strong></div>
+      </article>
+
+      <article class="card categories-card">
+        <div class="card-heading">
+          <div><p>Where it went</p><h3>Top categories</h3></div>
+          <button class="text-button" type="button" id="showExpenses">View all</button>
+        </div>
+        <div class="category-list" id="categoryList"></div>
+      </article>
+
+      <article class="card transactions-card">
+        <div class="card-heading">
+          <div><p>Recent activity</p><h3>Transactions</h3></div>
+          <button class="text-button" type="button" id="showAllTransactions">See all</button>
+        </div>
+        <div class="transaction-list" id="transactionList"></div>
+      </article>
+    </section>
+
+    <section class="dashboard view-panel" id="expensesView" hidden>
+      <article class="card wide-card">
+        <div class="card-heading"><div><p>Monthly plan</p><h3>Expense tracker</h3></div></div>
+        <div class="expense-table-header"><span>Expense</span><span>Category</span><span>Amount</span></div>
+        <div id="expenseTable"></div>
+      </article>
+    </section>
+
+    <section class="dashboard view-panel" id="savingsView" hidden>
+      <article class="card wide-card">
+        <div class="card-heading"><div><p>Build your future</p><h3>Savings goals</h3></div></div>
+        <div class="goal-editor">
+          <label>Goal name<input id="goalNameInput" value="Dream vacation"></label>
+          <label>Saved so far<input id="savedInput" type="number" min="0" value="2720"></label>
+          <label>Target amount<input id="targetInput" type="number" min="1" value="4000"></label>
+          <button class="add-button" type="button" id="saveGoal">Save goal</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="dashboard view-panel premium-view" id="premiumView" hidden>
+      <article class="premium-hero">
+        <div class="premium-badge">COINLY PLUS</div>
+        <h2>Make every dollar work harder.</h2>
+        <p>Unlock smarter reports, unlimited goals, and tools designed to help you save faster.</p>
+        <div class="plan-toggle" aria-label="Billing period">
+          <button type="button" class="active" data-plan="monthly">Monthly</button>
+          <button type="button" data-plan="yearly">Yearly <span>Save 33%</span></button>
+        </div>
+        <div class="premium-price"><strong id="premiumPrice">$5</strong><span>/month</span></div>
+        <button class="premium-cta" type="button" id="buyPremium">Get Coinly Plus</button>
+        <small id="premiumStatus">Cancel anytime · 7-day money-back guarantee</small>
+      </article>
+
+      <article class="card perk-card">
+        <p class="perk-label">PREMIUM PERKS</p>
+        <div class="perk-list">
+          <div><span>📊</span><div><strong>Advanced reports</strong><small>Trends, forecasts, and weekly insights</small></div></div>
+          <div><span>🎯</span><div><strong>Unlimited goals</strong><small>Plan every dream and emergency fund</small></div></div>
+          <div><span>📤</span><div><strong>CSV export</strong><small>Take your data anywhere</small></div></div>
+          <div><span>🎨</span><div><strong>Premium themes</strong><small>Personalize your money dashboard</small></div></div>
+        </div>
+      </article>
+
+      <article class="card premium-tools">
+        <div class="card-heading"><div><p>Plus tools</p><h3>Your premium perks</h3></div></div>
+        <button class="tool-button" type="button" id="exportCsv"><span>⬇</span><div><strong>Export expense data</strong><small>Download a CSV spreadsheet</small></div><b>›</b></button>
+        <button class="tool-button" type="button" id="themeButton"><span>◐</span><div><strong>Switch premium theme</strong><small>Unlock new dashboard colors</small></div><b>›</b></button>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="expenseDialog">
+    <form id="expenseForm" method="dialog">
+      <div class="dialog-heading">
+        <div><p>New transaction</p><h3>Add an expense</h3></div>
+        <button class="dialog-close" type="button" id="closeExpense" aria-label="Close">×</button>
+      </div>
+      <label>What did you buy?<input id="expenseName" name="name" required placeholder="Coffee, groceries..."></label>
+      <div class="form-row">
+        <label>Amount<input id="expenseAmount" name="amount" type="number" min="0.01" step="0.01" required placeholder="24.50"></label>
+        <label>Category
+          <select id="expenseCategory" name="category">
+            <option>Food</option><option>Home</option><option>Transport</option><option>Fun</option><option>Health</option><option>Shopping</option>
+          </select>
+        </label>
+      </div>
+      <button class="add-button dialog-submit" type="submit">Add expense</button>
+    </form>
+  </dialog>
+
+  <dialog id="checkoutDialog" class="checkout-dialog">
+    <form id="checkoutForm" method="dialog">
+      <div class="dialog-heading">
+        <div><p>COINLY PLUS</p><h3>Try premium for this demo</h3></div>
+        <button class="dialog-close" type="button" id="closeCheckout" aria-label="Close">×</button>
+      </div>
+      <div class="checkout-summary">
+        <span>Coinly Plus</span>
+        <strong id="checkoutPrice">$5.00/month</strong>
+      </div>
+      <label>Email for receipt<input id="checkoutEmail" type="email" required placeholder="you@example.com"></label>
+      <button class="premium-cta" type="submit">Unlock premium demo</button>
+      <small class="demo-note">Demo only — no payment will be collected.</small>
+    </form>
+  </dialog>
+
+  <dialog id="accountDialog" class="account-dialog">
+    <form id="accountForm" method="dialog">
+      <div class="dialog-heading">
+        <div><p id="accountKicker">JOIN COINLY</p><h3 id="accountTitle">Create an account</h3></div>
+        <button class="dialog-close" type="button" id="closeAccount" aria-label="Close">×</button>
+      </div>
+
+      <div class="account-tabs" aria-label="Account options">
+        <button type="button" class="active" data-account-tab="signup">Create account</button>
+        <button type="button" data-account-tab="signin">Sign in</button>
+      </div>
+
+      <div id="signupFields">
+        <label>Full name<input id="accountName" autocomplete="name" placeholder="Your name"></label>
+      </div>
+      <label>Email<input id="accountEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+      <label>Password<input id="accountPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></label>
+      <button class="account-submit" type="submit" id="accountSubmit">Create account</button>
+      <div class="account-signed-in" id="accountSignedInPanel" hidden>
+        <p id="accountSignedInEmail"></p>
+        <button type="button" class="account-secondary" id="resetData">Reset my demo data</button>
+        <button type="button" class="account-secondary danger" id="signOutAccount">Sign out</button>
+      </div>
+      <small class="demo-note">Demo only: this does not create a secure online account. Don't use a password you use elsewhere.</small>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
